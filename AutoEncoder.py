@@ -10,6 +10,10 @@ def xavier_init(fan_in, fan_out, constant = 1):
 	high = constant * np.sqrt(6.0 / (fan_in + fan_out))
 	return tf.random_uniform((fan_in, fan_out), minval = low, maxval = high, dtype = tf.float32)
 
+# Fixed an error in class AdditiveGaussianNoiseAutoencoder.
+# NameError: name 'self' is not defined.
+# Caused by missing TAB...
+
 class AdditiveGaussianNoiseAutoencoder (object):
 	def __init__(self, n_input, n_hidden, transfer_funciton = tf.nn.softplus, optimizer = tf.train.AdamOptimizer(), scale = 0.1):
 		self.n_input = n_input
