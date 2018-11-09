@@ -1,0 +1,35 @@
+Extracting MNIST_data/train-images-idx3-ubyte.gz
+Extracting MNIST_data/train-labels-idx1-ubyte.gz
+Extracting MNIST_data/t10k-images-idx3-ubyte.gz
+Extracting MNIST_data/t10k-labels-idx1-ubyte.gz
+Step 0, training accuracy 0.12
+Step 100, training accuracy 0.78
+Step 200, training accuracy 0.96
+Step 300, training accuracy 0.96
+Step 400, training accuracy 0.94
+Step 500, training accuracy 0.96
+Step 600, training accuracy 0.98
+Step 700, training accuracy 0.92
+Step 800, training accuracy 0.92
+Step 900, training accuracy 0.94
+Step 1000, training accuracy 0.96
+Step 1100, training accuracy 1
+Step 1200, training accuracy 0.96
+Step 1300, training accuracy 1
+Step 1400, training accuracy 1
+Step 1500, training accuracy 0.94
+Step 1600, training accuracy 1
+Step 1700, training accuracy 0.98
+Step 1800, training accuracy 1
+Step 1900, training accuracy 1
+Step 2000, training accuracy 0.94
+Step 2100, training accuracy 1
+Step 2200, training accuracy 0.98
+Step 2300, training accuracy 1
+Step 2400, training accuracy 0.98
+Step 2500, training accuracy 0.96
+Step 2600, training accuracy 0.98
+Step 2700, training accuracy 0.94
+Step 2800, training accuracy 0.96
+Step 2900, training accuracy 0.98
+Test accuracy: 0.9812
