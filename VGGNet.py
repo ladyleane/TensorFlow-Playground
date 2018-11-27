@@ -36,22 +36,22 @@ def inference_op(input_op, keep_prob):
 	pool1 = mpool_op(conv1_2, name = "pool1", kh = 2, kw = 2, dh = 2, dw = 2)
 
 	conv2_1 = conv_op(pool1, name = "conv2_1", kh = 3, kw = 3, n_out = 128, dh = 1, dw = 1, p = p)
-	conv2_2 = conv_op(conv2_1 name = "conv2_2", kh = 3, kw = 3, n_out = 128, dh = 1, dw = 1, p = p)
-	pool3 = mpool_op(conv2_2, name = "pool2", kh = 2, kw = 2, dh = 2, dw = 2)
+	conv2_2 = conv_op(conv2_1, name = "conv2_2", kh = 3, kw = 3, n_out = 128, dh = 1, dw = 1, p = p)
+	pool2 = mpool_op(conv2_2, name = "pool2", kh = 2, kw = 2, dh = 2, dw = 2)
 
 	conv3_1 = conv_op(pool2, name = "conv3_1", kh = 3, kw = 3, n_out = 256, dh = 1, dw = 1, p = p)
-	conv3_2 = conv_op(conv3_1 name = "conv3_2", kh = 3, kw = 3, n_out = 256, dh = 1, dw = 1, p = p)
-	conv3_3 = conv_op(conv3_2 name = "conv3_3", kh = 3, kw = 3, n_out = 256, dh = 1, dw = 1, p = p)
+	conv3_2 = conv_op(conv3_1, name = "conv3_2", kh = 3, kw = 3, n_out = 256, dh = 1, dw = 1, p = p)
+	conv3_3 = conv_op(conv3_2, name = "conv3_3", kh = 3, kw = 3, n_out = 256, dh = 1, dw = 1, p = p)
 	pool3 = mpool_op(conv3_3, name = "pool3", kh = 2, kw = 2, dh = 2, dw = 2)
 
 	conv4_1 = conv_op(pool3, name = "conv4_1", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
-	conv4_2 = conv_op(conv4_1 name = "conv4_2", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
-	conv4_3 = conv_op(conv4_2 name = "conv4_3", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
+	conv4_2 = conv_op(conv4_1, name = "conv4_2", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
+	conv4_3 = conv_op(conv4_2, name = "conv4_3", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
 	pool4 = mpool_op(conv4_3, name = "pool4", kh = 2, kw = 2, dh = 2, dw = 2)
 
 	conv5_1 = conv_op(pool4, name = "conv5_1", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
-	conv5_2 = conv_op(conv5_1 name = "conv5_2", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
-	conv5_3 = conv_op(conv5_2 name = "conv5_3", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
+	conv5_2 = conv_op(conv5_1, name = "conv5_2", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
+	conv5_3 = conv_op(conv5_2, name = "conv5_3", kh = 3, kw = 3, n_out = 512, dh = 1, dw = 1, p = p)
 	pool5 = mpool_op(conv5_3, name = "pool5", kh = 2, kw = 2, dh = 2, dw = 2)
 
 	shp = pool5.get_shape()
@@ -90,10 +90,10 @@ def time_tensorflow_run(session, target, feed, info_string):
 
 def run_benchmark():
 	with tf.Graph().as_default():
-		images.size = 224
+		image_size = 224
 		images = tf.Variable(tf.random_normal([batch_size, image_size, image_size, 3], dtype = tf.float32, stddev = 1e-1))
 		keep_prob = tf.placeholder(tf.float32)
-		predicitions, softmax, fc8, p = inference_op(images, keep_op)
+		predicitions, softmax, fc8, p = inference_op(images, keep_prob)
 
 		init = tf.global_variables_initializer()
 		sess = tf.Session()
