@@ -5,7 +5,7 @@ import time
 
 max_steps = 3000
 batch_size = 128
-data_dir = '/cifar-10/'
+data_dir = 'cifar-10-batches-bin/'
 
 def variable_with_weight_loss(shape, stddev, wl):
 	var = tf.Variable(tf.truncated_normal(shape, stddev = stddev))
@@ -13,7 +13,7 @@ def variable_with_weight_loss(shape, stddev, wl):
 		weight_loss = tf.multiply(tf.nn.l2_loss(var), wl, name = 'weight_loss')
 		tf.add_to_collection('losses', weight_loss)
 	return var
-cifar10.maybe_download_and_extract()
+#cifar10.maybe_download_and_extract()
 
 images_train, labels_train = cifar10_input.distorted_inputs(data_dir = data_dir, batch_size = batch_size)
 images_test, labels_test = cifar10_input.inputs(eval_data = True, data_dir = data_dir, batch_size = batch_size)
@@ -25,7 +25,7 @@ weight1 = variable_with_weight_loss(shape = [5, 5, 3, 64], stddev = 5e-2, wl = 0
 kernel1 = tf.nn.conv2d(image_holder, weight1, [1, 1, 1, 1], padding = 'SAME')
 bias1 = tf.Variable(tf.constant(0.0, shape = [64]))
 conv1 = tf.nn.relu(tf.nn.bias_add(kernel1, bias1))
-poo11 = tf.nn.max_pool(conv1, ksize = [1, 3, 3, 1], strides = [1, 2, 2, 1], padding = 'SAME')
+pool1 = tf.nn.max_pool(conv1, ksize = [1, 3, 3, 1], strides = [1, 2, 2, 1], padding = 'SAME')
 norm1 = tf.nn.lrn(pool1, 4, bias = 1.0, alpha = 0.001/9.0, beta = 0.75)
 
 weight2 = variable_with_weight_loss(shape = [5, 5, 64, 64], stddev = 5e-2, wl = 0.0)
@@ -51,7 +51,7 @@ logits = tf.add(tf.matmul(local4, weight5), bias5)
 
 def loss(logits, labels):
 	labels = tf.cast(labels, tf.int64)
-	cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logtis = logits, labels = labels, name = 'cross_entropy_per_example')
+	cross_entropy = tf.nn.sparse_softmax_cross_entropy_with_logits(logits = logits, labels = labels, name = 'cross_entropy_per_example')
 	cross_entropy_mean = tf.reduce_mean(cross_entropy, name = 'cross_entropy')
 	tf.add_to_collection('losses', cross_entropy_mean)
 
@@ -69,7 +69,7 @@ tf.train.start_queue_runners()
 for step in range(max_steps):
 	start_time = time.time()
 	image_batch, label_batch = sess.run([images_train, labels_train])
-	_, loss_value = sess.run([train_op, loss], feed_dict = {imageholder: image_batch, label_holder: label_batch})
+	_, loss_value = sess.run([train_op, loss], feed_dict = {image_holder: image_batch, label_holder: label_batch})
 	duration = time.time() - start_time
 
 	if step % 10 == 0:
