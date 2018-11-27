@@ -7,7 +7,7 @@ batch_size = 32
 num_batches = 100
 
 def print_activications(t):
-	print(t.op.name, ' ', t.getshape().as_list())
+	print(t.op.name, ' ', t.get_shape().as_list())
 
 def inference(images):
 	parameters = []
@@ -27,7 +27,7 @@ def inference(images):
 
 	with tf.name_scope('conv2') as scope:
 		kernel = tf.Variable(tf.truncated_normal([5, 5, 64, 192], dtype = tf.float32, stddev = 1e-1), name = 'weights')
-		conv = tf.nn.conv2d(pool1, kenel, [1, 1, 1, 1], padding = 'SAME')
+		conv = tf.nn.conv2d(pool1, kernel, [1, 1, 1, 1], padding = 'SAME')
 		biases = tf.Variable(tf.constant(0.0, shape = [192], dtype = tf.float32),trainable = True, name = 'biases')
 		bias = tf.nn.bias_add(conv, biases)
 		conv2 = tf.nn.relu(bias, name = scope)
@@ -41,7 +41,7 @@ def inference(images):
 	with tf.name_scope('conv3') as scope:
 		kernel = tf.Variable(tf.truncated_normal([3, 3, 192, 384], dtype = tf.float32, stddev = 1e-1), name = 'weights')
 		conv = tf.nn.conv2d(pool2, kernel, [1, 1, 1, 1], padding = 'SAME')
-		biases = tf.Variable(tf.constant(0.0, shape = [384], dtype = tf.float32)，trainable = True, name = 'biases')
+		biases = tf.Variable(tf.constant(0.0, shape = [384], dtype = tf.float32), trainable = True, name = 'biases')
 		bias = tf.nn.bias_add(conv, biases)
 		conv3 = tf.nn.relu(bias, name = scope)
 		parameters += [kernel, biases]
@@ -90,7 +90,7 @@ def time_tensorflow_run(session, target, info_string):
 	print('%s: %s across %d steps, %.3f +/- %.3f sec / batch' %(datetime.now(), info_string, num_batches, mn, sd))
 
 def run_benchmark():
- 	with tf.Graph().as_result():
+ 	with tf.Graph().as_default():
  		image_size = 224
  		images = tf.Variable(tf.random_normal([batch_size, image_size, image_size, 3], dtype = tf.float32, stddev = 1e-1))
  		pool5, parameters = inference(images)
