@@ -62,12 +62,12 @@ def bottleneck(inputs, depth, unit_depth_bottleneck, stride, outputs_colletions 
 		return slim.utils.collect_named_outputs(outputs_colletions, sc.name, output)
 
 def resnet_v2(inputs, blocks, num_classes, global_pool = True, include_root_block = True, reuse = None, scope = None):
-	with tf.variable_scope(scope, 'resnet_v2', [inputs], reuse = reuse) as tc:
+	with tf.variable_scope(scope, 'resnet_v2', [inputs], reuse = reuse) as sc:
 		end_points_collection = sc.original_name_scope + 'end_points'
 		with slim.arg_scope([slim.conv2d, bottleneck, stack_blocks_dense], outputs_colletions = end_points_collection):
 			net = inputs
 			if include_root_block:
-				with slim.arg_scope:([slim.conv2d], activation_fn = None, normalizer_fn = None):
+				with slim.arg_scope([slim.conv2d], activation_fn = None, normalizer_fn = None):
 					net = conv2d_same(net, 64, 7, stride = 2, scope = 'conv1')
 				net = slim.max_pool2d(net, [3, 3], stride = 2, scope = 'pool1')
 			net = stack_blocks_dense(net, blocks)
