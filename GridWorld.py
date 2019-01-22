@@ -247,7 +247,7 @@ with tf.Session() as sess:
 
 					updateTarget(targetOps, sess)
 
-				rAall += r
+				rAll += r
 				s = s1
 				if d == True:
 					break
